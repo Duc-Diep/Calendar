@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">ExViewPager</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tutorial">Chọn MON, TUE,... để cài đặt ngày bắt đầu của tuần </string>
 </resources>

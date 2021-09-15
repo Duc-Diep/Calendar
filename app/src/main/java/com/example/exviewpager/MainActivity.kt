@@ -49,11 +49,10 @@ class MainActivity : AppCompatActivity() {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     if (focusPage < PAGE_CENTER) {
                         localDate = localDate.minusMonths(1)
-                        Toast.makeText(this@MainActivity,"Scroll Left $focusPage $localDate",Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this,"Scroll Left $focusPage $localDate",Toast.LENGTH_SHORT).show()
                     } else if (focusPage > PAGE_CENTER) {
                         localDate = localDate.plusMonths(1)
-                        Toast.makeText(this@MainActivity,"Scroll Right $focusPage $localDate",Toast.LENGTH_SHORT).show()
-
+//                        Toast.makeText(this,"Scroll Right $focusPage $localDate",Toast.LENGTH_SHORT).show()
                     }
                     pageAdapter.setCalendar(localDate)
                     view_pager.setCurrentItem(1, false)
@@ -61,10 +60,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
-        //custome ViewPager
-//        view_pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-//        view_pager.setPageTransformer(ZoomOutPageTransformer())
 
     }
 }

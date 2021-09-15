@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.exviewpager.R
 import com.example.exviewpager.objects.DaysOfWeek
 
-class DayOfWeekAdapter(var context: Context?, var listDaysOfWeek: ArrayList<DaysOfWeek>) : RecyclerView.Adapter<DayOfWeekAdapter.DaysViewHolder>() {
-    var onClick : ((Int)->Unit)? = null
+class DayOfWeekAdapter(var context: Context?, var listDaysOfWeek: ArrayList<DaysOfWeek>) :
+    RecyclerView.Adapter<DayOfWeekAdapter.DaysViewHolder>() {
+    var onClick: ((Int) -> Unit)? = null
 
-    fun setOnItemClick(callBack: (Int)->Unit){
+    fun setOnItemClick(callBack: (Int) -> Unit) {
         onClick = callBack
     }
 
@@ -20,7 +21,7 @@ class DayOfWeekAdapter(var context: Context?, var listDaysOfWeek: ArrayList<Days
         parent: ViewGroup,
         viewType: Int
     ): DaysViewHolder {
-        var view = LayoutInflater.from(context).inflate(R.layout.day_of_week_item,parent,false)
+        var view = LayoutInflater.from(context).inflate(R.layout.day_of_week_item, parent, false)
         return DaysViewHolder(view)
 
     }
@@ -36,7 +37,8 @@ class DayOfWeekAdapter(var context: Context?, var listDaysOfWeek: ArrayList<Days
     override fun getItemCount(): Int {
         return listDaysOfWeek.size
     }
-    class DaysViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView){
+
+    class DaysViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvDay: TextView = itemView.findViewById(R.id.tv_day_item)
     }
 }
