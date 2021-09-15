@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.*
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.exviewpager.objects.Day
 import com.example.exviewpager.R
@@ -22,22 +23,34 @@ class CalendarAdapter(var context: Context?, var dayOfMonth:ArrayList<Day>) : Re
         var day = dayOfMonth[position]
         holder.tvDay.text = day.number.toString()
         if (day.checked){
-            index = position
             holder.bgrChecked.setBackgroundColor(color)
+        }else{
+            holder.bgrChecked.setBackgroundColor(0)
+        }
+        if (!day.isInMonth){
+            holder.tvDay.setTextColor(ContextCompat.getColor(context!!,R.color.grey))
+        }else{
+            holder.tvDay.setTextColor(ContextCompat.getColor(context!!,R.color.black))
         }
         holder.itemView.setOnClickListener(object: DoubleClickListener() {
             override fun onDoubleClick() {
+                if (index==-1) index = position
                 dayOfMonth[index].checked = false
                 dayOfMonth[position].checked = true
+                notifyItemChanged(index)
+                index = position
                 color = Color.RED
-                notifyDataSetChanged()
+                notifyItemChanged(position)
             }
 
             override fun onSingleClick() {
+                if (index==-1) index = position
                 dayOfMonth[index].checked = false
+                notifyItemChanged(index)
                 dayOfMonth[position].checked = true
+                index = position
                 color = Color.YELLOW
-                notifyDataSetChanged()
+                notifyItemChanged(position)
             }
 
         })

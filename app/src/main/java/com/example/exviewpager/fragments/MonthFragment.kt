@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter
 
 class MonthFragment : Fragment() {
     var dayAdapter: CalendarAdapter? = null
-    lateinit var selectedDate:LocalDate
+    lateinit var selectedDate: LocalDate
     lateinit var daysInMonth: ArrayList<Day>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,42 +35,52 @@ class MonthFragment : Fragment() {
         getDaysInMonth(selectedDate)
         dayAdapter = CalendarAdapter(context, daysInMonth)
         view.rcv_days.adapter = dayAdapter
-//        var layout = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-//        view.day_of_week.layoutManager = layout
         return view
     }
 
-    private fun setMonthView(localDate: LocalDate):String {
-        var formatter  = DateTimeFormatter.ofPattern("MMMM yyyy")
+    private fun setMonthView(localDate: LocalDate): String {
+        var formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
         return localDate.format(formatter)
     }
 
-    private fun getDaysInMonth(localDate: LocalDate){
+    private fun getDaysInMonth(localDate: LocalDate) {
         daysInMonth = ArrayList()
         var yearMonth = YearMonth.from(localDate)
         var lengthOfMonth = yearMonth.lengthOfMonth()
         var firstOfMonth = localDate.withDayOfMonth(1)
         var dayOfWeek = firstOfMonth.dayOfWeek.value
+        var numberDayOfPreviousWeek = dayOfWeek
+        var previousMonthLength = YearMonth.from(localDate.minusMonths(1)).lengthOfMonth()
         Log.d("TAG", "getDaysInMonth: firstOfMonth: $firstOfMonth, dayOfWeek: $dayOfWeek")
         var indexDay = 1
-        for(i in 1..42 ){
-            if (i<dayOfWeek||i>lengthOfMonth+dayOfWeek-1){
-                daysInMonth.add(Day(0,false))
-
-            }else{
-                if (indexDay==1){
-                    daysInMonth.add(Day(indexDay,true))
-                    indexDay++
-                }else{
-                    daysInMonth.add(Day(indexDay,false))
+        for (i in 1..43) {
+            if (i < dayOfWeek) {
+                daysInMonth.add(
+                    Day(
+                        previousMonthLength - numberDayOfPreviousWeek + 2,
+                        false,
+                        false
+                    )
+                )
+                numberDayOfPreviousWeek--
+            } else if (i >= dayOfWeek && i <= lengthOfMonth + dayOfWeek) {
+                if (i == (lengthOfMonth + dayOfWeek)) {
+                    indexDay = 1
+                } else {
+                    daysInMonth.add(Day(indexDay, false, true))
                     indexDay++
                 }
 
+            } else {
+                daysInMonth.add(Day(indexDay, false, false))
+                indexDay++
             }
+
         }
     }
 
-    fun updateUI(newMonth: LocalDate){
+
+    fun updateUI(newMonth: LocalDate) {
         var v = view
         v?.tv_month?.text = setMonthView(newMonth)
         getDaysInMonth(newMonth)
