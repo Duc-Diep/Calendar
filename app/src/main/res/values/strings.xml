@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">ExViewPager</string>
+    <string name="app_name">DucDiep_ViewPager</string>
     <string name="tutorial">Chọn MON, TUE,... để cài đặt ngày bắt đầu của tuần </string>
 </resources>

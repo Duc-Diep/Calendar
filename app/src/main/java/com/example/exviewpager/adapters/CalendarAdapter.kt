@@ -10,15 +10,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.exviewpager.objects.Day
 import com.example.exviewpager.R
 import com.example.exviewpager.events.DoubleClickListener
+import com.example.exviewpager.utils.AppPreferences
 
 class CalendarAdapter(var context: Context?, var dayOfMonth: ArrayList<Day>) :
     RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
     var index = -1
     var color: Int = Color.YELLOW
+
+    init {
+        AppPreferences.init(context)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
         var view = LayoutInflater.from(context).inflate(R.layout.day_item, parent, false)
         return DayViewHolder(view)
     }
+
 
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
         var day = dayOfMonth[position]
@@ -45,6 +51,8 @@ class CalendarAdapter(var context: Context?, var dayOfMonth: ArrayList<Day>) :
                 notifyItemChanged(index)
                 index = position
                 color = Color.RED
+                AppPreferences.checkedDay = day.number
+                AppPreferences.checkedMonth = day.month
                 notifyItemChanged(position)
             }
 
@@ -55,6 +63,8 @@ class CalendarAdapter(var context: Context?, var dayOfMonth: ArrayList<Day>) :
                 dayOfMonth[position].checked = true
                 index = position
                 color = Color.YELLOW
+                AppPreferences.checkedDay = day.number
+                AppPreferences.checkedMonth = day.month
                 notifyItemChanged(position)
             }
 

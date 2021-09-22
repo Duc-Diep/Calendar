@@ -21,14 +21,13 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, var fragList: ArrayList
     }
 
 
-    fun setCalendar(currentMonth: LocalDate) {
+    fun setCalendar(currentMonth: LocalDate,value:Int) {
         var prevMonth = currentMonth.minusMonths(1)
 
         var nextMonth = currentMonth.plusMonths(1)
 
-        fragList[0].updateUI(prevMonth)
-        fragList[1].updateUI(currentMonth)
-        fragList[2].updateUI(nextMonth)
-
+        fragList[0].updateUI(prevMonth,value)
+        fragList[1].updateUI(currentMonth,value)
+        fragList[2].updateUI(nextMonth,value)
     }
 }

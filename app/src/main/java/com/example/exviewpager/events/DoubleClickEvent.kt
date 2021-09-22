@@ -7,38 +7,22 @@ import android.view.View
 
 
 abstract class DoubleClickListener : View.OnClickListener {
-    private var isSingleEvent = false
-    private val doubleClickQualificationSpanInMillis: Long
-    private var timestampLastClick: Long
-    private val handler: Handler
-    private val runnable: Runnable
-    override fun onClick(v: View?) {
-        if (SystemClock.elapsedRealtime() - timestampLastClick < doubleClickQualificationSpanInMillis) {
-            isSingleEvent = false
-            handler.removeCallbacks(runnable)
+    private val DOUBLE_CLICK_TIME_DELTA = 200
+
+    var lastClickTime:Long = 0
+
+
+    override fun onClick(v:View) {
+        var clickTime = System.currentTimeMillis()
+        if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA){
             onDoubleClick()
-            return
+            lastClickTime = 0
+        } else {
+            onSingleClick()
         }
-        isSingleEvent = true
-        handler.postDelayed(runnable, DEFAULT_QUALIFICATION_SPAN)
-        timestampLastClick = SystemClock.elapsedRealtime()
+        lastClickTime = clickTime
     }
 
-    abstract fun onDoubleClick()
-    abstract fun onSingleClick()
-
-    companion object {
-        private const val DEFAULT_QUALIFICATION_SPAN: Long = 200
-    }
-
-    init {
-        doubleClickQualificationSpanInMillis = DEFAULT_QUALIFICATION_SPAN
-        timestampLastClick = 0
-        handler = Handler(Looper.getMainLooper())
-        runnable = Runnable {
-            if (isSingleEvent) {
-                onSingleClick()
-            }
-        }
-    }
+     abstract fun onSingleClick()
+     abstract fun onDoubleClick()
 }
