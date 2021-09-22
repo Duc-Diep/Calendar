@@ -26,8 +26,8 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, var fragList: ArrayList
 
         var nextMonth = currentMonth.plusMonths(1)
 
-        fragList[0].updateUI(prevMonth,value)
-        fragList[1].updateUI(currentMonth,value)
-        fragList[2].updateUI(nextMonth,value)
+        fragList[0].updateUI(prevMonth,value,false)
+        fragList[1].updateUI(currentMonth,value,true)
+        fragList[2].updateUI(nextMonth,value,false)
     }
 }

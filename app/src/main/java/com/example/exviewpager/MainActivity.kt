@@ -44,12 +44,13 @@ class MainActivity : AppCompatActivity() {
         fragList = ArrayList()
 
         fragList.apply {
-            add(MonthFragment.newInstance(localDate.minusMonths(1)))
-            add(MonthFragment.newInstance(localDate))
-            add(MonthFragment.newInstance(localDate.plusMonths(1)))
+            add(MonthFragment.newInstance(localDate.minusMonths(1),false))
+            add(MonthFragment.newInstance(localDate,true))
+            add(MonthFragment.newInstance(localDate.plusMonths(1),false))
         }
         pageAdapter = ViewPagerAdapter(supportFragmentManager, fragList)
         view_pager.adapter = pageAdapter
+        view_pager.offscreenPageLimit=3
         view_pager.setCurrentItem(1, false)
         view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(

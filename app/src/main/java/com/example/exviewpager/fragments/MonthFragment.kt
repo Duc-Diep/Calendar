@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter
 
 class MonthFragment : Fragment() {
     var dayAdapter: CalendarAdapter? = null
+    var isPageCenter = false
     lateinit var selectedDate: LocalDate
     lateinit var daysInMonth: ArrayList<Day>
     private var valueFirstDayOfWeek: Int = 0
@@ -31,6 +32,7 @@ class MonthFragment : Fragment() {
         AppPreferences.init(context)
         arguments?.let {
             selectedDate = it.getSerializable("month") as LocalDate
+            isPageCenter = it.getBoolean("isCenter")
         }
     }
 
@@ -43,11 +45,12 @@ class MonthFragment : Fragment() {
         //set up when load app
         getDaysInMonth(selectedDate, valueFirstDayOfWeek)
         view.rcv_days.adapter = dayAdapter
-        val dividerItemDecoration = DividerItemDecoration(
+        val dividerVer = DividerItemDecoration(
             context,
             RecyclerView.VERTICAL
         )
-        view.rcv_days.addItemDecoration(dividerItemDecoration)
+        view.rcv_days.addItemDecoration(dividerVer)
+
 
         return view
     }
@@ -81,7 +84,7 @@ class MonthFragment : Fragment() {
                 if (i == (lengthOfMonth + dayOfWeek)) {
                     indexDay = 1
                 } else {
-                    if (indexDay == AppPreferences.checkedDay&& monthValue==AppPreferences.checkedMonth) {
+                    if (indexDay == AppPreferences.checkedDay&& monthValue==AppPreferences.checkedMonth&&isPageCenter) {
                         daysInMonth.add(Day(indexDay, monthValue, true, true))
                     } else {
                         daysInMonth.add(Day(indexDay, monthValue, false, true))
@@ -121,7 +124,8 @@ class MonthFragment : Fragment() {
     }
 
     //update UI when scroll left or right
-    fun updateUI(newMonth: LocalDate, value: Int) {
+    fun updateUI(newMonth: LocalDate, value: Int, isCenter:Boolean) {
+        isPageCenter = isCenter
         valueFirstDayOfWeek = value
         selectedDate = newMonth
         getDaysInMonth(newMonth, valueFirstDayOfWeek)
@@ -130,10 +134,11 @@ class MonthFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(month: LocalDate) =
+        fun newInstance(month: LocalDate,isCenter: Boolean) =
             MonthFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable("month", month)
+                    putBoolean("isCenter",isCenter)
                 }
             }
     }
