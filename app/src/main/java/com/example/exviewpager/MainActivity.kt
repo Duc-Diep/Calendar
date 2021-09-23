@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         reloadData()
         localDate = LocalDate.now()
-        setMonthView(localDate)
+        tv_month.text = "Tháng ${localDate.month.value} - ${localDate.year}"
         //setup ViewPager
         setupViewPager()
         //setup day of week
@@ -63,6 +63,13 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
                 focusPage = position
+                if (focusPage < PAGE_CENTER){
+                    tv_month.text = "Tháng ${localDate.minusMonths(1).month.value} - ${localDate.minusMonths(1).year}"
+                }else if(focusPage> PAGE_CENTER){
+                    tv_month.text = "Tháng ${localDate.plusMonths(1).month.value} - ${localDate.plusMonths(1).year}"
+                }
+
+
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -72,7 +79,6 @@ class MainActivity : AppCompatActivity() {
                     } else if (focusPage > PAGE_CENTER) {
                         localDate = localDate.plusMonths(1)
                     }
-                    setMonthView(localDate)
                     pageAdapter.setCalendar(localDate, valueFirstDayOfWeek)
                     view_pager.setCurrentItem(1, false)
                 }
@@ -81,12 +87,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-
-    //format day
-    private fun setMonthView(localDate: LocalDate) {
-        var formatter = DateTimeFormatter.ofPattern("MM - yyyy")
-        tv_month.text = "Tháng ${localDate.format(formatter)}"
-    }
 
     private fun setUpDaysOfWeek(firstValue: Int) {
         listDayOfWeek = ArrayList()

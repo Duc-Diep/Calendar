@@ -51,7 +51,6 @@ class MonthFragment : Fragment() {
         )
         view.rcv_days.addItemDecoration(dividerVer)
 
-
         return view
     }
 
@@ -84,7 +83,7 @@ class MonthFragment : Fragment() {
                 if (i == (lengthOfMonth + dayOfWeek)) {
                     indexDay = 1
                 } else {
-                    if (indexDay == AppPreferences.checkedDay&& monthValue==AppPreferences.checkedMonth&&isPageCenter) {
+                    if (indexDay == AppPreferences.checkedDay && monthValue == AppPreferences.checkedMonth && isPageCenter) {
                         daysInMonth.add(Day(indexDay, monthValue, true, true))
                     } else {
                         daysInMonth.add(Day(indexDay, monthValue, false, true))
@@ -103,7 +102,7 @@ class MonthFragment : Fragment() {
         var count = value
         while (count > 0) {
             daysInMonth.removeAt(0)
-            daysInMonth.add(Day(indexDay, monthValue+1, false, false))
+            daysInMonth.add(Day(indexDay, monthValue + 1, false, false))
             indexDay++
             count--
         }
@@ -124,7 +123,7 @@ class MonthFragment : Fragment() {
     }
 
     //update UI when scroll left or right
-    fun updateUI(newMonth: LocalDate, value: Int, isCenter:Boolean) {
+    fun updateUI(newMonth: LocalDate, value: Int, isCenter: Boolean) {
         isPageCenter = isCenter
         valueFirstDayOfWeek = value
         selectedDate = newMonth
@@ -134,11 +133,11 @@ class MonthFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(month: LocalDate,isCenter: Boolean) =
+        fun newInstance(month: LocalDate, isCenter: Boolean) =
             MonthFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable("month", month)
-                    putBoolean("isCenter",isCenter)
+                    putBoolean("isCenter", isCenter)
                 }
             }
     }
